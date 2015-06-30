@@ -2,10 +2,11 @@
   function hasGetUserMedia() {
     return !!(navigator.getUserMedia || navigator.webkitGetUserMedia ||
               navigator.mozGetUserMedia || navigator.msGetUserMedia);
-  }
+  };
 
   if (hasGetUserMedia()) {
-    // Good to go!
+    var recordButton = document.querySelector('#recordToggle');
+
     //Cross browser functionality
     navigator.getUserMedia =  navigator.getUserMedia || navigator.webkitGetUserMedia ||
                               navigator.mozGetUserMedia || navigator.msGetUserMedia;
