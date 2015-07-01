@@ -35,8 +35,12 @@
       var audioCtx = new AudioContext();
       var thisStream = audioCtx.createMediaStreamSource(stream);
       // var thisStream = window.URL.createObjectURL(stream);
-      streams[streams.length] = thisStream;
-      streams.length++;
+      setTimeout(function() {
+        streams[streams.length] = thisStream;
+        streams.length++;
+        console.log(streams);
+        document.querySelector('audio').src = window.URL.createObjectURL(streams[0].context.destination);
+      }, 10000);
       // var video = document.querySelector('video');
       // video.src = window.URL.createObjectURL(stream);
 
