@@ -32,14 +32,15 @@
       video: false,
       audio: true
     }, function (stream) {
-      var audioCtx = new AudioContext();
+      var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
       var thisStream = audioCtx.createMediaStreamSource(stream);
       // var thisStream = window.URL.createObjectURL(stream);
       setTimeout(function() {
         streams[streams.length] = thisStream;
         streams.length++;
         console.log(streams);
-        document.querySelector('audio').src = window.URL.createObjectURL(streams[0].context.destination);
+        thisStream.connect(audioCtx.destination);
+        // document.querySelector('audio').src = window.URL.createObjectURL(streams[0].context.destination);
       }, 10000);
       // var video = document.querySelector('video');
       // video.src = window.URL.createObjectURL(stream);
