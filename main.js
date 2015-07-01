@@ -6,25 +6,43 @@
 
   if (hasGetUserMedia()) {
     var recordButton = document.querySelector('#recordToggle');
+    var streams = {
+      length: 0
+    };
 
     //Cross browser functionality
     navigator.getUserMedia =  navigator.getUserMedia || navigator.webkitGetUserMedia ||
                               navigator.mozGetUserMedia || navigator.msGetUserMedia;
+
+    recordButton.addEventListener('click', function (e) {
+      if (this.dataset.state === 'notRecording') {
+        this.dataset.state = 'recording';
+        this.textContent = 'Stop';
+      } else {
+        this.dataset.state = 'notRecording';
+        this.textContent = 'Record';
+      }
+    });
 
     var errCallback = function (err) {
       console.log('Hold onto your butts', err);
     };
 
     navigator.getUserMedia({
-      video: true,
+      video: false,
       audio: true
     }, function (stream) {
-      var video = document.querySelector('video');
-      video.src = window.URL.createObjectURL(stream);
+      var audioCtx = new AudioContext();
+      var thisStream = audioCtx.createMediaStreamSource(stream);
+      // var thisStream = window.URL.createObjectURL(stream);
+      streams[streams.length] = thisStream;
+      streams.length++;
+      // var video = document.querySelector('video');
+      // video.src = window.URL.createObjectURL(stream);
 
-      video.onloadedmetadata = function (e) {
+      // video.onloadedmetadata = function (e) {
 
-      };
+      // };
     }, errCallback);
 
   } else {
